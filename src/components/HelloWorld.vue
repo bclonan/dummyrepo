@@ -53,7 +53,8 @@ export default {
   data() {
     return {
       loginurl: 'https://api.magentacloudcapture.com/vendor/auth/login',
-      eventgeturl: 'https://api.magentacloudcapture.com/event/public/${this.eventID}',
+      eventgeturl:
+        'https://api.magentacloudcapture.com/vendor/event/public/${this.eventID}',
       info: null,
       loginResponse: null,
       authToken: null,
@@ -94,24 +95,23 @@ export default {
 
       this.setResponseData(res)
     },
-    getEventDetails() {
-      let myapiRoute = `https://api.magentacloudcapture.com/event/public/${this.eventID}`
-      let accessToken = this.loginResponse.AuthenticationResult
+    async getEventDetails() {
+      let myapiRoute = `https://api.magentacloudcapture.com/vendor/event/public/${this.eventID}`
+      let IdToken = this.loginResponse.AuthenticationResult.IdToken
 
-      this.$http
-        .get(myapiRoute, { headers: { Authorization: accessToken } })
-        .then((response) => {
-          console.dir(response.data)
-          this.eventResponse = response.data
-        })
+      let res = null
 
-      this.$http
-        .get(myapiRoute)
-        .then((response) => (this.totalVuePackages = response.data.total))
-        .catch((error) => {
-          this.errorMessage = error.message
-          console.error('There was an error!', error)
-        })
+      let headers = {
+        'Content-Type': 'application/x-amz-json-1.1',
+        Authorization: `Bearer ${{ IdToken }}`
+      }
+
+      await this.$http.get(myapiRoute, headers).then((response) => {
+        this.eventResponse = response.data
+        res = Object.assign({}, res, response.data)
+        this.eventResponse = Object.assign({}, this.eventResponse, response.data)
+      })
+      this.setResponseData(res)
     },
     syntaxHighlight(json) {
       json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
