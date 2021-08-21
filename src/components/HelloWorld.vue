@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{loginurl}}</h1>
+    <h1>{{ loginurl }}</h1>
     <div class="flex-container">
       <div class="flex-item">
         <label>Username</label>
@@ -10,31 +10,27 @@
         <label>Password</label>
         <input v-model="password" type="password" />
       </div>
-            <div class="flex-item">
+      <div class="flex-item">
         <label>clientid</label>
         <input v-model="clientid" type="text" />
       </div>
-    <div>
-      <button @click="login">Login</button>
+      <div>
+        <button @click="login">Login</button>
+      </div>
     </div>
-</div>
-  <h1>{{eventgeturl}}</h1>
+    <h1>{{ eventgeturl }}</h1>
     <div class="flex-container">
       <div class="flex-item">
         <label>event id</label>
         <input v-model="eventID" type="text" />
       </div>
 
-    <div>
-      <button @click="getEventDetails">get event</button>
+      <div>
+        <button @click="getEventDetails">get event</button>
+      </div>
     </div>
-</div>
-
-    {{ apierrMessage }}
 
     <div class="event-list">{{ loginResponse ? 'Is Logged In' : 'Not Logged In' }}</div>
-
-
 
     <hr />
     <h1>Last request response</h1>
@@ -56,8 +52,8 @@ export default {
   },
   data() {
     return {
-      loginurl : 'https://api.magentacloudcapture.com/vendor/auth/login',
-      eventgeturl : 'https://api.magentacloudcapture.com/event/public/${this.eventID}',
+      loginurl: 'https://api.magentacloudcapture.com/vendor/auth/login',
+      eventgeturl: 'https://api.magentacloudcapture.com/event/public/${this.eventID}',
       info: null,
       loginResponse: null,
       authToken: null,
@@ -67,7 +63,7 @@ export default {
       lastRequestResponse: [],
       username: null,
       password: null,
-      clientid: null,
+      clientid: null
     }
   },
   methods: {
@@ -78,7 +74,7 @@ export default {
           PASSWORD: this.password
         },
         AuthFlow: 'USER_PASSWORD_AUTH',
-        ClientId:  this.clientid
+        ClientId: this.clientid
       }
 
       let headers = {
@@ -148,7 +144,6 @@ export default {
   }
 }
 </script>
-
 
 <style>
 .flex-wrapper {
