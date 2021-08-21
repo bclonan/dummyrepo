@@ -1,13 +1,40 @@
 <template>
   <div class="hello">
-    <input type="text" v-model="eventID" />
+    <h1>{{loginurl}}</h1>
+    <div class="flex-container">
+      <div class="flex-item">
+        <label>Username</label>
+        <input v-model="username" type="text" />
+      </div>
+      <div class="flex-item">
+        <label>Password</label>
+        <input v-model="password" type="password" />
+      </div>
+            <div class="flex-item">
+        <label>clientid</label>
+        <input v-model="clientid" type="text" />
+      </div>
+    <div>
+      <button @click="login">Login</button>
+    </div>
+</div>
+  <h1>{{eventgeturl}}</h1>
+    <div class="flex-container">
+      <div class="flex-item">
+        <label>event id</label>
+        <input v-model="eventID" type="text" />
+      </div>
+
+    <div>
+      <button @click="getEventDetails">get event</button>
+    </div>
+</div>
+
     {{ apierrMessage }}
-    <hr />
+
     <div class="event-list">{{ loginResponse ? 'Is Logged In' : 'Not Logged In' }}</div>
 
-    <button @click="login">log me in</button>
-    <hr />
-    <button @click="getEventDetails">Get my event</button>
+
 
     <hr />
     <h1>Last request response</h1>
@@ -29,24 +56,29 @@ export default {
   },
   data() {
     return {
+      loginurl : 'https://api.magentacloudcapture.com/vendor/auth/login',
+      eventgeturl : 'https://api.magentacloudcapture.com/event/public/${this.eventID}',
       info: null,
       loginResponse: null,
       authToken: null,
       eventID: null,
       eventResponse: null,
       apierrMessage: null,
-      lastRequestResponse: []
+      lastRequestResponse: [],
+      username: null,
+      password: null,
+      clientid: null,
     }
   },
   methods: {
     async login() {
       let payload = {
         AuthParameters: {
-          USERNAME: 'ENTERUSERNAME',
-          PASSWORD: 'ENTERPASSWORD!'
+          USERNAME: this.username,
+          PASSWORD: this.password
         },
         AuthFlow: 'USER_PASSWORD_AUTH',
-        ClientId: 'ENTERUSERNAME'
+        ClientId:  this.clientid
       }
 
       let headers = {
@@ -116,3 +148,13 @@ export default {
   }
 }
 </script>
+
+
+<style>
+.flex-wrapper {
+  display: flex;
+}
+.flex-item {
+  flex: 1;
+}
+</style>
